@@ -10,8 +10,12 @@ require mathlib from git
 lean_lib «Homework» where
   -- add library configuration options here
 
+/-
 @[default_target]
 lean_exe "homework4" where
   root := `homework4
 lean_exe "wff" where
   root := `wff
+lean_exe "Type" where
+  root := `Type
+-/

@@ -107,12 +107,4 @@ theorem WFF_balance_of_brackets : ∀ f : WFF, WFF_num_left_brackets f = WFF_num
   case p_iff =>
     sorry
 
-set_option linter.unusedVariables false
 
-#check (fun x : Nat => x) 1     -- Nat
-#check (fun x : Nat => true) 1  -- Bool
-
-def f (n : Nat) : String := toString n
-def g (s : String) : Bool := s.length > 0
-
-#check (fun (α β γ : Type) (u : β → γ) (v : α → β) (x : α) => u (v x)) Nat String Bool g f 0
