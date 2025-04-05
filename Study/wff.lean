@@ -100,11 +100,18 @@ theorem WFF_balance_of_brackets : ∀ f : WFF, WFF_num_left_brackets f = WFF_num
     unfold WFF_num_right_brackets
     rewrite [IH_and_1, IH_and_2]
     rfl
-  case p_or  =>
-    sorry
-  case p_imp =>
-    sorry
-  case p_iff =>
-    sorry
-
-
+  case p_or  f' g' IH_or_1 IH_or_2 =>
+    unfold WFF_num_left_brackets
+    unfold WFF_num_right_brackets
+    rewrite [IH_or_1, IH_or_2]
+    rfl
+  case p_imp f' g' IH_imp_1 IH_imp_2 =>
+    unfold WFF_num_left_brackets
+    unfold WFF_num_right_brackets
+    rewrite [IH_imp_1, IH_imp_2]
+    rfl
+  case p_iff f' g' IH_iff_1 IH_iff_2 =>
+    unfold WFF_num_left_brackets
+    unfold WFF_num_right_brackets
+    rewrite [IH_iff_1, IH_iff_2]
+    rfl

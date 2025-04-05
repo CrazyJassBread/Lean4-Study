@@ -81,6 +81,45 @@ def foo := let α := Nat ;fun x : α => x + 2
 
 
 /-
-在开始下一部分之间，先介绍一下namespace的概念（相信用过C++的同学应该不会太陌生）
-namespace可以避免定义函数的名称冲突问题，有了它我们可以将自己的定义分组
+在开始下一部分之间，先介绍一下Sections和namespace的概念（相信用过C++的同学应该不会太陌生）
+他们可以避免定义函数的名称冲突问题，有了这两个东西，我们可以将自己的定义分组
 -/
+
+/-Variables：变量的声明，方便定义的进行，但是如果不使用Sections进行范围控制，声明的变量将会作用于整个文件，给出一个示范-/
+section test
+  --范围内的variable会在整个section内有效，使用end后结束作用
+  variable (α β γ : Type)--可以声明为Type
+  variable (g : β -> γ )(f :α -> β )(h : α -> α )--当然也可以做任意类型
+  variable (x : α)
+
+  def compose_test := g (f x)
+  def doTwice_test := h (h x)
+  def doThrice := h (h (h x))
+end test
+
+/-相比于section内的声明脱离section外不可用，namespace提供了更方便的作用方式-/
+namespace test2
+  def a : Nat := 5
+  def f (x : Nat) : Nat := x + 7
+
+  def fa : Nat := f a
+  def ffa : Nat := f (f a)
+
+  #check a
+  #check f
+  #check fa
+  #check ffa
+  #check test2.fa
+end test2
+--在终止test2后，可以使用前缀来使用内部的函数
+#check test2.a
+#check test2.f
+#check test2.fa
+#check test2.ffa
+
+open test2
+--在使用open后，test2的函数可以直接使用而不需要前缀
+#check a
+#check f
+#check fa
+#check test2.fa
