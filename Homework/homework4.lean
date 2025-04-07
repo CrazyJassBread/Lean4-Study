@@ -69,28 +69,50 @@ theorem prop_syl_2 (α β γ : Prop) (h1 : α → β) (h2 : β → γ) : α → 
 --/
 
 -- Contraposition
+theorem prop_1 (φ ψ γ : Prop) : (γ → ψ) → ((φ → γ) → (φ → ψ)) := by
+  intro h
+  let h1 : φ → (γ → ψ) := A7 (γ → ψ) φ h
+  let h2 : (φ → γ) → (φ → ψ) := A8 φ γ ψ h1
+  exact h2
+
 theorem contr_pos (α β : Prop) : (α → β) → (¬β → ¬α) := by
-  sorry
+  intro h1   -- h₁ : α → β
+  let h2 : (α → ¬β) → ¬α := A9 α β h1
+  let h3 : ¬β → (α → ¬β) := A7 (¬β) α
+  let h4 :  ¬β → ¬α  := prop_1 (¬β) (¬α) (α → ¬β) h2 h3
+  exact h4
 
 -- Triple negations
 theorem tri_neg (φ : Prop) : ¬¬¬φ → ¬φ := by
-  sorry
+  intro h      -- h : ¬¬¬φ = ((φ → False) → False) → False
+  intro hφ     -- hφ : φ
+  apply h      -- 制造出 ((φ → False) → False)，然后交给 h
+  intro h_notφ -- h_notφ : φ → False
+  exact h_notφ hφ  -- 用 hφ 去打爆 h_notφ（矛盾），成功 ✅
 
 -- Axiom 14
 theorem A14 (α : Prop) : (¬¬α → α) :=
   sorry
 
-theorem prop_1 (φ ψ γ : Prop) : (γ → ψ) → ((φ → γ) → (φ → ψ)) := by
-  sorry
-
 theorem prop_2 (φ γ : Prop) : φ → ((φ → γ) → γ) := by
-  sorry
+  intro hφ           -- hφ : φ
+  intro hImp         -- hImp : φ → γ
+  exact hImp hφ      -- 应用条件，得出 γ
 
 theorem prop_3 (φ γ ψ δ : Prop) : ((((φ ∧ γ) → ψ) → δ) → ((φ → ψ) → δ)) := by
-  sorry
+  intro h1
+  intro h2
+  apply h1
+  intro h3
+
 
 theorem prop_4 (φ γ : Prop) (h1 : φ → γ) (h2 : φ → ¬γ) : ¬φ := by
-  sorry
+  let h3 : (φ → γ) → ((φ → ¬γ) → ¬φ ):= A9 φ γ
+  have h4 : (φ → ¬γ) → ¬φ := h3 h1
+  have h5 : ¬φ := h4 h2
+  exact h5
 
 theorem prop_5 (φ ψ γ : Prop) (h1 : γ → ψ) (h2 : γ → (ψ → φ)) : γ → φ := by
-  sorry
+  let h3 : (γ → (ψ → φ)) → (γ → ψ) → (γ → φ) := A8 γ ψ φ
+  have h4 : γ → φ := h3 h2 h1
+  exact h4
